@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 function App() {
-  const [dragons, setDragons] = useState([]);
+  const [dragon, setDragon] = useState([]);
 
   useEffect(() => {
-    fetch("https://api.spacexdata.com/v4/dragons")
+    fetch("https://api.spacexdata.com/v4/dragons/5e9d058759b1ff74a7ad5f8f")
       .then((response) => response.json())
       .then((data) => {
-        setDragons(data);
+        setDragon(data);
       })
       .catch((err) => {
         console.log(err.message);
@@ -17,24 +17,15 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Dragons SpaceX</h1>
-      </header>
       <div>
-        {dragons.map((dragon) => {
-          return (
-            <div className="post-card" key={dragon.id}>
-              <h2 className="post-title">{dragon.name}</h2>
-              <p className="post-body">{dragon.wikipedia}</p>
-              <p className="post-body">{dragon.description}</p>
-              <div>
-                {dragon.flickr_images.map((dragonImage) => {
-                  return <img src={dragonImage} alt="dragon image" />;
-                })}
-              </div>
-            </div>
-          );
-        })}
+        <div className="card" key={dragon.id}>
+          <h2>{dragon.name}</h2>
+          <img src={dragon.flickr_images} />
+          <p>{dragon.description}</p>
+          <p>year: {dragon.first_flight}</p>
+          <p>massa: {dragon.dry_mass_kg}</p>
+          <a href={dragon.wikipedia}>wikipedia</a>
+        </div>
       </div>
     </div>
   );
